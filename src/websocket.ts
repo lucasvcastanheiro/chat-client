@@ -31,7 +31,11 @@ const sendWs = (cmd: string, data: object) => {
 const persistConnectionOnLocalStorage = (data: any) => {
     const {id}: {id: string} = data
 
-    
+    const user = localStorage.getItem('user')
+
+    if(!user){
+        localStorage.setItem('user', JSON.stringify({id}));
+    }
 }
 
 export {addCommand, sendWs}
