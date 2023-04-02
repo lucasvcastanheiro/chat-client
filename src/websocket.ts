@@ -1,9 +1,17 @@
 const ws = new WebSocket('ws://localhost:3000')
-const commands: { [index: string]: Function } = {}
+const commands: Record<string, Function> = {}
 
 ws.onopen = () => {
     console.log('Ws conectado')
-    addCommand('conexao', persistConnectionOnLocalStorage)
+
+    const savedUser = localStorage.getItem('user')
+    
+    const {id} = JSON.parse(savedUser!) || {}
+
+    sendWs('authentication', {id})
+
+    addCommand('connection', persistConnectionOnLocalStorage)
+    addCommand('error', errorHandler)
 }
 
 ws.onmessage = (message: MessageEvent) => {
@@ -16,7 +24,7 @@ ws.onmessage = (message: MessageEvent) => {
     try {
         commands[cmd](data)
     } catch (error) {
-        console.log(`Comando '${cmd}' não cadastrado.`);
+        console.log(`Command '${cmd}' is not cadastred.`);
     }
 }
 
@@ -36,6 +44,12 @@ const persistConnectionOnLocalStorage = (data: any) => {
     if(!user){
         localStorage.setItem('user', JSON.stringify({id}));
     }
+}
+
+const errorHandler = (data: any) => {
+    const {error}: {error: string} = data
+
+    window.alert(error)
 }
 
 export {addCommand, sendWs}
