@@ -10,7 +10,7 @@ ws.onopen = () => {
 
     sendWs('authentication', {id})
 
-    addCommand('connection', persistConnectionOnLocalStorage)
+    addCommand('authentication', persistConnectionOnLocalStorage)
     addCommand('error', errorHandler)
 }
 
@@ -21,10 +21,14 @@ ws.onmessage = (message: MessageEvent) => {
         return
     }
 
-    try {
-        commands[cmd](data)
-    } catch (error) {
-        console.log(`Command '${cmd}' is not cadastred.`);
+    if(commands[cmd]){
+        try {
+            commands[cmd](data)
+        } catch (error) {
+            console.log(error);
+        }
+    } else {
+        window.alert(`Command '${cmd}' is not cadastred.`);
     }
 }
 
