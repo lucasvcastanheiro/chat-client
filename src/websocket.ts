@@ -12,6 +12,8 @@ ws.onopen = () => {
 
     addCommand('authentication', persistConnectionOnLocalStorage)
     addCommand('error', errorHandler)
+
+    sendWs('getAllMessages', {})
 }
 
 ws.onmessage = (message: MessageEvent) => {
