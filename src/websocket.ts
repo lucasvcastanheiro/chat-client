@@ -4,13 +4,13 @@ const commands: Record<string, Function> = {}
 ws.onopen = () => {
     console.log('Ws conectado')
 
-    const savedUser = localStorage.getItem('user')
+    const savedUser = sessionStorage.getItem('user')
     
     const {id} = JSON.parse(savedUser!) || {}
 
     sendWs('authentication', {id})
 
-    addCommand('authentication', persistConnectionOnLocalStorage)
+    addCommand('authentication', persistConnectionOnSessionStorage)
     addCommand('error', errorHandler)
 
     sendWs('getAllMessages', {})
@@ -42,13 +42,13 @@ const sendWs = (cmd: string, data: object) => {
     ws.send(JSON.stringify({cmd, data}))
 }
 
-const persistConnectionOnLocalStorage = (data: any) => {
+const persistConnectionOnSessionStorage = (data: any) => {
     const {id}: {id: string} = data
 
-    const user = localStorage.getItem('user')
+    const user = sessionStorage.getItem('user')
 
     if(!user){
-        localStorage.setItem('user', JSON.stringify({id}));
+        sessionStorage.setItem('user', JSON.stringify({id}));
     }
 }
 

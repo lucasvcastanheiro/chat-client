@@ -8,7 +8,7 @@ Notification.requestPermission().then((permission) => {
   console.log('permiss', permission)
 });
 
-const {id} = JSON.parse(localStorage.getItem('user')!)
+const {id} = JSON.parse(sessionStorage.getItem('user')!)
 
 inputMessage!.onkeydown = (ev) => {
   const {code} = ev
