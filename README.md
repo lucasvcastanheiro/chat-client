@@ -43,7 +43,7 @@ $ npm run dev
 
 ## Observations
 
-I'll be happy if you could me provide any feedback about the project helping me to be a better developer.
+I'll be happy if you could provide me any feedback about the project helping me to be a better developer.
 
 Email-me: lucasvcastanheiro@gmail.com
 
